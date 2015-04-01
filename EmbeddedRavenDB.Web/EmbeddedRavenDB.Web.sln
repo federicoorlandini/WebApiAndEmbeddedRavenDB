@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmbeddedRavenDB.DataAccess"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmbeddedRavenDB.Models", "EmbeddedRavenDB.Models\EmbeddedRavenDB.Models.csproj", "{529ACE83-2019-4ABC-B48D-55A0B62C66FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmbeddedRavenDB.Web.Tests", "EmbeddedRavenDB.Web.Tests\EmbeddedRavenDB.Web.Tests.csproj", "{86CE14F1-ABE9-49A4-B6BB-B76E1189C75D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{529ACE83-2019-4ABC-B48D-55A0B62C66FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{529ACE83-2019-4ABC-B48D-55A0B62C66FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{529ACE83-2019-4ABC-B48D-55A0B62C66FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86CE14F1-ABE9-49A4-B6BB-B76E1189C75D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86CE14F1-ABE9-49A4-B6BB-B76E1189C75D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86CE14F1-ABE9-49A4-B6BB-B76E1189C75D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86CE14F1-ABE9-49A4-B6BB-B76E1189C75D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -35,20 +35,34 @@ namespace EmbeddedRavenDB.Web
 
             // Document store registration
             builder.RegisterType<DocumentStoreFactory>().
-                As<IDocumentStoreFactory>().
-                WithParameters(new [] { 
-                    new NamedParameter("Url", "http://localhost:8080"), 
-                    new NamedParameter("Database", "EmbeddedRavenDBTest")
-            });
+                As<IDocumentStoreFactory>();
 
             // Repository registration
-            builder.RegisterType<Repository<Customer>>().
-                As<IRepository<Customer>>();
+            const string ravenDBUrl ="http://localhost:8080";
+            const string databaseName = "EmbeddedRavenDBTest";
+
+                builder.RegisterType<Repository<Customer>>().
+                As<IRepository<Customer>>().
+                WithParameters(new [] {
+                    new NamedParameter("url", ravenDBUrl),
+                    new NamedParameter("databaseName", databaseName)
+                });
 
             var container = builder.Build();
 
             var resolver = new AutofacWebApiDependencyResolver(container);
             config.DependencyResolver = resolver;
+
+            // Migrate data
+            var ravenMigrationOptions = new RavenMigrations.MigrationOptions { 
+                Direction = RavenMigrations.Directions.Up
+            };
+            
+            using(var documentStore = new DocumentStore() { Url = ravenDBUrl, DefaultDatabase = databaseName})
+            {
+                documentStore.Initialize();
+                RavenMigrations.Runner.Run(documentStore, ravenMigrationOptions);
+            }
         }
     }
 }

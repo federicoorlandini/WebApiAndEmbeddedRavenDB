@@ -20,9 +20,9 @@ namespace EmbeddedRavenDB.Web.Controllers
         }
 
         [Route("all")]
-        public IEnumerable<string> GetAll()
+        public IEnumerable<Customer> GetAll()
         {
-            return new string[] { "value1", "value2" };
+            return _repository.GetAll();
         }
 
         // GET api/values/5
