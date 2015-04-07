@@ -2,21 +2,24 @@
 using Autofac.Integration.WebApi;
 using EmbeddedRavenDB.DataAccess;
 using EmbeddedRavenDB.Models;
-using Raven.Client;
+using Microsoft.Owin;
+using Owin;
 using Raven.Client.Document;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Web;
 using System.Web.Http;
 
 namespace EmbeddedRavenDB.Web
 {
-    public static class WebApiConfig
+    public class Startup
     {
-        public static void Register(HttpConfiguration config)
+        public void Configuration(IAppBuilder app)
         {
             // Web API configuration and services
+            var config = new HttpConfiguration();
 
             // Web API routes
             config.MapHttpAttributeRoutes();
@@ -26,6 +29,9 @@ namespace EmbeddedRavenDB.Web
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            // Remove the XML formatter
+            config.Formatters.Remove(config.Formatters.XmlFormatter);
 
             // Autofac configuration
             // Controller registrations
@@ -38,12 +44,12 @@ namespace EmbeddedRavenDB.Web
                 As<IDocumentStoreFactory>();
 
             // Repository registration
-            const string ravenDBUrl ="http://localhost:8080";
+            const string ravenDBUrl = "http://localhost:8080";
             const string databaseName = "EmbeddedRavenDBTest";
 
-                builder.RegisterType<Repository<Customer>>().
-                As<IRepository<Customer>>().
-                WithParameters(new [] {
+            builder.RegisterType<Repository<Customer>>().
+            As<IRepository<Customer>>().
+            WithParameters(new[] {
                     new NamedParameter("url", ravenDBUrl),
                     new NamedParameter("databaseName", databaseName)
                 });
@@ -54,15 +60,19 @@ namespace EmbeddedRavenDB.Web
             config.DependencyResolver = resolver;
 
             // Migrate data
-            var ravenMigrationOptions = new RavenMigrations.MigrationOptions { 
+            var ravenMigrationOptions = new RavenMigrations.MigrationOptions
+            {
                 Direction = RavenMigrations.Directions.Up
             };
-            
-            using(var documentStore = new DocumentStore() { Url = ravenDBUrl, DefaultDatabase = databaseName})
+
+            using (var documentStore = new DocumentStore() { Url = ravenDBUrl, DefaultDatabase = databaseName })
             {
                 documentStore.Initialize();
                 RavenMigrations.Runner.Run(documentStore, ravenMigrationOptions);
             }
+
+            // Done
+            app.UseWebApi(config);
         }
     }
 }
