@@ -12,10 +12,9 @@ namespace EmbeddedRavenDB.DataAccess
     {
         private IDocumentStore _documentStore;
         
-        public Repository(IDocumentStoreFactory documentStoreFactory, string url, string databaseName)
+        public Repository(IDocumentStore documentStore)
         {
-            _documentStore = documentStoreFactory.Create(url, databaseName);
-            _documentStore.Initialize();
+            _documentStore = documentStore;
         }
 
         public IEnumerable<T> GetAll()

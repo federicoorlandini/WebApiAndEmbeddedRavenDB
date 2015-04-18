@@ -186,6 +186,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="DataMigrations\DataMigrator.cs" />
+    <Compile Include="DataMigrations\IDataMigrator.cs" />
     <Compile Include="DataMigrations\Step1.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
